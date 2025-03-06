@@ -4,9 +4,194 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>알약 식별 시스템</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .upload-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        #preview {
+            max-width: 300px;
+            margin: 20px 0;
+            display: none;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: white;
+            border-radius: 4px;
+            display: none;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        #idfytotal0 {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        #idfytotal0 th {
+            background-color: #f5f5f5;
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+            font-weight: bold;
+        }
+
+        #idfytotal0 td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            line-height: 1.4;
+            word-break: break-word;
+        }
+
+        #idfytotal0 tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        #idfytotal0 tr:hover {
+            background-color: #f0f0f0;
+        }
+
+        .txtL {
+            text-align: left;
+        }
+
+        .name {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .search-results-table {
+            margin-top: 20px;
+            width: 100%;
+            overflow-x: auto;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .loading:after {
+            content: '';
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error-message {
+            color: #dc3545;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            display: none;
+        }
+        
+        #pillInfo {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        #pillInfo p {
+            margin: 10px 0;
+            color: #555;
+        }
+        #pillInfo span {
+            font-weight: bold;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
-    <h1>알약 식별 시스템</h1>
-    <p>구상끝 드디어 시작</p>
+    <div class="container">
+        <h1>Pill Identifier Demo</h1>
+        
+        <div class="upload-section">
+            <input type="file" id="imageInput" accept="image/*">
+            <img id="preview" src="" alt="이미지 미리보기">
+            <button onclick="identifyPill()">식별하기</button>
+        </div>
+
+        <div class="loading">
+            분석 중입니다...
+        </div>
+
+        <div class="results" id="results">
+            <h2>분석 결과</h2>
+            <div id="pillInfo">
+                <h3>알약 특징</h3>
+                <p>모양: <span id="shape"></span></p>
+                <p>색상: <span id="color"></span></p>
+                <p>각인: <span id="imprint"></span></p>
+            </div>
+            
+            <div id="identifiedPills">
+                <h3>식별된 알약 목록</h3>
+                <ul id="pillList"></ul>
+            </div>
+
+            <div id="searchResults">
+                <h3>상세 검색 결과</h3>
+            </div>
+        </div>
+    </div>
+
+    <script>       
+        document.getElementById('imageInput').addEventListener('change', function(e) {
+            const preview = document.getElementById('preview');
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        });       
+        function identifyPill() {
+            alert('아직 구현되지 않았습니다.');
+        }
+    </script>
 </body>
 </html>
