@@ -1,3 +1,4 @@
+<!-- templates/index.html -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -48,11 +49,7 @@
         button:hover {
             background-color: #0056b3;
         }
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 30px;
-        }
+
         #idfytotal0 {
             width: 100%;
             border-collapse: collapse;
@@ -71,7 +68,7 @@
             padding: 12px;
             border: 1px solid #ddd;
             line-height: 1.4;
-            word-break: break-word;
+            word-break: break-word; /* Prevent long words from overflowing */
         }
 
         #idfytotal0 tr:nth-child(even) {
@@ -91,13 +88,24 @@
             color: #333;
         }
 
+        /* Responsive Table */
         .search-results-table {
             margin-top: 20px;
             width: 100%;
-            overflow-x: auto;
+            overflow-x: auto; /* Enable horizontal scrolling on smaller screens */
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
+        /* 로딩 애니메이션 개선 */
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 4px;
+        }
+        
         .loading:after {
             content: '';
             display: inline-block;
@@ -114,6 +122,7 @@
             100% { transform: rotate(360deg); }
         }
 
+        /* 에러 메시지 스타일 */
         .error-message {
             color: #dc3545;
             background-color: #f8d7da;
@@ -123,7 +132,19 @@
             border-radius: 4px;
             display: none;
         }
-        
+        input[type="file"] {
+            padding: 10px;
+            margin: 10px 0;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        h2, h3 {
+            color: #444;
+            margin-top: 20px;
+        }
         #pillInfo {
             background-color: #f8f9fa;
             padding: 15px;
@@ -138,8 +159,6 @@
             font-weight: bold;
             color: #333;
         }
-
-        /* 반응형 디자인 */
         @media (max-width: 600px) {
             body {
                 padding: 10px;
@@ -152,11 +171,11 @@
             }
         }
 
-        /* 검색 결과 테이블 스타일 */
+        /* Specific styling for search results table */
         #searchResults table {
             width: 100%;
             border-collapse: collapse;
-            table-layout: fixed;
+            table-layout: fixed; /* Crucial for controlling column widths */
         }
 
         #searchResults th,
@@ -169,14 +188,16 @@
 
         #searchResults th {
             background-color: #f2f2f2;
-            width: 25%;
+            /* Example: Equal column widths */
+            width: 25%; /* Adjust as needed based on the number of columns */
         }
 
+        /* Style for the pill image in the search results */
         .pill-image {
-            max-width: 100px;
-            max-height: 100px;
-            display: block;
-            margin: 0 auto;
+            max-width: 100px; /* Adjust as needed */
+            max-height: 100px; /* Adjust as needed */
+            display: block; /* Ensures it respects width/height settings */
+            margin: 0 auto; /* Center the image horizontally within its cell */
         }
     </style>
 </head>
@@ -214,7 +235,8 @@
         </div>
     </div>
 
-    <script>       
+    <script>
+        // 이미지 미리보기
         document.getElementById('imageInput').addEventListener('change', function(e) {
             const preview = document.getElementById('preview');
             const file = e.target.files[0];
@@ -228,7 +250,9 @@
             if (file) {
                 reader.readAsDataURL(file);
             }
-        });       
+        });
+
+        // 알약 식별 함수
         function identifyPill() {
             const fileInput = document.getElementById('imageInput');
             const loading = document.querySelector('.loading');
