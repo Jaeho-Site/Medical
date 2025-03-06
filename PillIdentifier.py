@@ -35,7 +35,6 @@ class PillIdentifier:
     def DriverInput(self,selector,value):
         input_field = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, selector)))
         input_field.send_keys(value)
-        print(f"입력 완료: {selector} 에 '{value}' 입력됨")
 
     def DriverClick(self,selector):      
         target_element = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR,selector)))
@@ -45,13 +44,34 @@ class PillIdentifier:
     def DirverButton(self,selector):
         search_button = self.driver.find_element(By.CSS_SELECTOR, selector)
         search_button.click()
-        print(f"버튼 클릭 완료: {selector}")
 
+    def IdentifyPill(self, shape, color, imprint1, imprint2):
+        if imprint1:
+            self.DriverInput("#drug_print_front", imprint1)
+
+        if imprint2:
+            self.DriverInput("#drug_print_back", imprint2)
+
+        if shape and shape in self.ShapeSelectorDict:
+            self.DriverClick(self.ShapeSelectorDict[shape])
+
+        if color in self.ColorList:
+            self.DriverClick("#color_" + color)
+
+        self.DirverButton("#btn_idfysearch")
+
+        result_table = self.wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#idfytotal0")))
+        pill_names = self.driver.find_elements(By.CSS_SELECTOR, "#idfytotal0 > tbody > tr > td.txtL.name")
+        self.result_html = "\n".join([pill.text for pill in pill_names])
+
+        print("검색된 약 목록:")
+        print(self.result_html)
+
+           
 if __name__ == "__main__":
     driver = webdriver.Chrome()
     ident = PillIdentifier(driver)
+    ident.IdentifyPill("circular", "pink", "LH", "")
+    print("검색 결과 HTML:", ident.result_html)
 
-    ident.DriverInput("#drug_print_front", "LH")
-    ident.DriverClick("#shape_01")
-    ident.DriverClick("#color_pink")
-    ident.DirverButton("#btn_idfysearch")
+    driver.quit()
